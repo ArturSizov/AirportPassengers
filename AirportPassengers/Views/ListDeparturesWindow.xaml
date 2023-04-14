@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AirportPassengers.Views"
         mc:Ignorable="d"
-        Title="ListDeparturesWindow" Height="450" Width="800">
+        Height="650" 
+        Width="1024"
+        Title="ListDeparturesWindow" >
     <Grid>
         
     </Grid>
