@@ -13,57 +13,60 @@
     <Window.DataContext>
         <vm:ListDeparturesWindowViewModel/>
     </Window.DataContext>
-    
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition/>
-            <RowDefinition Height="45"/>
-        </Grid.RowDefinitions>
+        <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="262"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     Margin="2">
-            <Label Content="Searc..."/>
-        </StackPanel>
-        <GroupBox Header="Рейсы" 
+                <Label Content="Searc..."/>
+            </StackPanel>
+            <GroupBox Header="Рейсы" 
                   Grid.Row="1"
                   Grid.Column="0"
                   Margin="1">
-            <StackPanel>
-                <ListBox ItemsSource="{Binding Flights}" 
+                <StackPanel
+                        MinHeight="655">
+                    <ListBox ItemsSource="{Binding Flights}" 
                          SelectedItem="{Binding SelectedFlight}"
                          SelectedIndex="0">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="Transparent" 
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="Transparent" 
                                 BorderBrush="Red" 
                                 BorderThickness="1"  
                                 CornerRadius="4" Padding="1">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Number, StringFormat=Номер рейса: {0}}"/>
-                                    <TextBlock Text="{Binding DepartureTime, StringFormat=Время отправки: {0}}"/>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </GroupBox>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding Number, StringFormat=Номер рейса: {0}}"/>
+                                        <TextBlock Text="{Binding DepartureTime, StringFormat=Время отправки: {0: H:mmч|dd.MM.yyyy }}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
-        <GroupBox Header="Пассажиры"
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Пассажиры"
                   Grid.Row="1"
                   Grid.Column="1"
                   Margin="1"
                   HorizontalAlignment="Left">
-            <StackPanel>
-                <DataGrid CanUserAddRows="False"
+                <StackPanel>
+                    <DataGrid CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       Margin="2"
                       ItemsSource="{Binding SelectedFlight.Passengers}"
@@ -72,29 +75,35 @@
                       RowBackground="Transparent"
                       AlternatingRowBackground="AliceBlue"
                       Background="White" RowHeight="25" GridLinesVisibility="Horizontal">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
-                        <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/> 
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-        </GroupBox>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="250"/>
+                            <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="250"/>
+                            <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        <Button Content="Добавить список"
+                Width="120"
+                Height="45"
+                Margin="5"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"/>
+        <Button Content="Сохранить"
+                Command="{Binding SaveFile}"
+                Width="85"
+                Height="45"
+                Margin="0,0,130,5"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"/>
+        <Button Content="Добавить рейс"
+                Width="130"
+                Height="45"
+                Margin="5"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"/>
         
-
-        <StackPanel Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Margin="5"
-                    HorizontalAlignment="Right">
-            <Button Content="Add"
-                    Width="75"
-                    Height="25"
-                    Margin="2"/>
-            <Button Content="Save"
-                    Width="75"
-                    Height="25"
-                    Margin="2"/>
-        </StackPanel>
     </Grid>
+    
 </Window>

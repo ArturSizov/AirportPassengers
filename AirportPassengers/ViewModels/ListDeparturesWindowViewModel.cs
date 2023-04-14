@@ -1,8 +1,14 @@
 ﻿using AirportPassengers.Interfaces;
 using AirportPassengers.Models;
+using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Text.Json;
+using System.Windows;
+using System.Windows.Input;
 
 namespace AirportPassengers.ViewModels
 {
@@ -77,5 +83,56 @@ namespace AirportPassengers.ViewModels
             Flights.Add(fl);
             Flights.Add(fl2);
         }
+
+        #region Commands
+        /// <summary>
+        /// Download command from json file
+        /// </summary>
+        public ICommand LoadingFromFile => new DelegateCommand(() =>
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Exel|*.xlsx";
+
+            try
+            {
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    var filePath = openFileDialog.FileName;
+                }
+                else return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Airport Passengers", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        });
+
+        // <summary>
+        /// Save file command
+        /// </summary>
+        public ICommand SaveFile => new DelegateCommand(async() =>
+        {
+            Stream myStream;
+
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Json|.json";
+            saveFileDialog.RestoreDirectory = true;
+
+            try
+            {
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    var filePath = saveFileDialog.FileName;
+                    await using FileStream createStream = File.Create($"{filePath}");
+                    await JsonSerializer.SerializeAsync(createStream, Flights);
+                }
+                else return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Airport Passengers", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        });
+        #endregion
     }
 }
