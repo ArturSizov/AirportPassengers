@@ -1,14 +1,13 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AirportPassengers.Interfaces;
+using Prism.Mvvm;
 
 namespace AirportPassengers.ViewModels
 {
-    public class ListDeparturesWindowViewModel : BindableBase
+    public class ListDeparturesWindowViewModel : BindableBase, IListDeparturesWindowViewModel
     {
+        #region Piblic property
+        public string Title => "Airport Passengers";
 
+        #endregion
     }
 }

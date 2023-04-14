@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AirportPassengers.Interfaces;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AirportPassengers.Views
 {
@@ -18,7 +7,8 @@ namespace AirportPassengers.Views
     /// Логика взаимодействия для ListDeparturesWindow.xaml
     /// </summary>
     public partial class ListDeparturesWindow : Window
-    {
+    { 
+
         public ListDeparturesWindow()
         {
             InitializeComponent();
