@@ -17,20 +17,21 @@ namespace AirportPassengers.ViewModels
     public class ListDeparturesWindowViewModel : BindableBase
     {
         #region Private property
-        private ObservableCollection<Flight> flights = new();
-        private Flight selectedFlight;
+        private ObservableCollection<Flight>? flights;
+        private Flight? selectedFlight;
         private readonly IRepository repository;
         #endregion
 
         #region Piblic property
         public string Title => "Airport Passengers";
-        public ObservableCollection<Flight> Flights { get => flights; set => SetProperty(ref flights, value); }
-        public  Flight SelectedFlight { get => selectedFlight; set => SetProperty(ref selectedFlight, value); }
+        public ObservableCollection<Flight> Flights { get => flights!; set => SetProperty(ref flights, value); }
+        public  Flight SelectedFlight { get => selectedFlight!; set => SetProperty(ref selectedFlight, value); }
         #endregion
 
         public ListDeparturesWindowViewModel(IRepository repository)
         {
             this.repository = repository;
+            Flights = repository.Flights;
         }
 
         #region Commands
@@ -41,7 +42,6 @@ namespace AirportPassengers.ViewModels
         {
             repository.LoadingFromFile();
             Flights = repository.Flights;
-
         });
 
         // <summary>
@@ -60,6 +60,8 @@ namespace AirportPassengers.ViewModels
 
                 win.ShowDialog();
             });
+            Flights = repository.Flights;
+
         });
         #endregion
     }

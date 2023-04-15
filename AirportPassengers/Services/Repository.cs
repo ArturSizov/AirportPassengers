@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,7 +34,13 @@ namespace AirportPassengers.Services
                 if (openFileDialog.ShowDialog() == true)
                 {
                     var file = File.ReadAllText(openFileDialog.FileName);
-                    Flights = JsonSerializer.Deserialize<ObservableCollection<Flight>>(file);
+                    var flights = JsonSerializer.Deserialize<ObservableCollection<Flight>>(file)!;
+
+                    foreach (var item in flights)
+                    {
+                        if(Flights.Where(x => x.Id == item.Id).Any() == false)
+                            Flights.Add(item);
+                    }
                 }
                 else return;
             }

@@ -8,12 +8,11 @@
         Height="650" 
         Width="1024"
         FontSize="14"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ListDeparturesWindowViewModel}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ListDeparturesWindowViewModel, UpdateSourceTrigger=PropertyChanged}"
         Title="{Binding Title}">
     
     <Grid>
         <Grid>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
                 <RowDefinition/>
@@ -36,7 +35,7 @@
                   Margin="1">
                 <StackPanel
                         MinHeight="655">
-                    <ListBox ItemsSource="{Binding Flights}" 
+                    <ListBox ItemsSource="{Binding Flights, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                          SelectedItem="{Binding SelectedFlight}"
                          SelectedIndex="0">
                         <ListBox.ItemTemplate>

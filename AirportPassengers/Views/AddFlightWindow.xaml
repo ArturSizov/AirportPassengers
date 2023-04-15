@@ -9,7 +9,8 @@
         Height="450" 
         Width="350"
         FontSize="14"
-        DataContext="{Binding Source={StaticResource Locator}, Path=AddFlightWindowViewModel}"
+        x:Name="Window"
+        DataContext="{Binding Source={StaticResource Locator}, Path=AddFlightWindowViewModel, UpdateSourceTrigger=PropertyChanged}"
         Title="{Binding Title}"
         ResizeMode="NoResize">
     
@@ -29,19 +30,21 @@
             <TextBox TextAlignment="Center"
                      Width="150"
                      Margin="3"
+                     
                      Text="{Binding Flight.Number}"/>
             <TextBlock Text="Дата отправки:"
                        HorizontalAlignment="Center"
                        Margin="3"/>
             <DatePicker Width="150"
                         Margin="1"
+                        SelectedDate="{Binding Flight.DepartureTime}"
                         DisplayDateStart="{x:Static sys:DateTime.Now}"/>
             <TextBlock Text="Время отправки:"
                        HorizontalAlignment="Center"
                        Margin="3" />
             <ComboBox HorizontalContentAlignment="Center"
                       Width="80"
-                      SelectedItem="{Binding Flight.DepartureTime}"
+                      SelectedItem="{Binding Flight.DepartureTime }"
                       SelectedIndex="10">
                 <ComboBoxItem Content="0.00"/>
                 <ComboBoxItem Content="1.00"/>
@@ -77,9 +80,12 @@
                     Margin="0,0,0,10">
             <Button Content="Сохранить"
                     Command="{Binding AddFlight}"
+                    CommandParameter="{Binding ElementName=Window}"
                     Margin="3" 
                     Width="85"/>
             <Button Content="Отмена" 
+                    Command="{Binding Close}"
+                    CommandParameter="{Binding ElementName=Window}"
                     Margin="3"
                     Width="85"/>
 
