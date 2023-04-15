@@ -44,8 +44,7 @@
                        Margin="3" />
             <ComboBox HorizontalContentAlignment="Center"
                       Width="80"
-                      SelectedItem="{Binding Flight.DepartureTime }"
-                      SelectedIndex="10">
+                      SelectedIndex="{Binding DispatchHours}">
                 <ComboBoxItem Content="0.00"/>
                 <ComboBoxItem Content="1.00"/>
                 <ComboBoxItem Content="2.00"/>

@@ -2,6 +2,8 @@
 using AirportPassengers.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,20 +12,30 @@ namespace AirportPassengers.ViewModels
     public class AddFlightWindowViewModel : BindableBase
     {
         #region Private property
-        private Flight flight = new();
+        private Flight? flight;
         private IRepository repository;
+        private int dispatchHours = 12;
+        #endregion
+
+        #region Public propert
+        public string Title => "Добавить рейс";
+        public Flight Flight { get => flight!; set => SetProperty(ref flight, value); }
+        public int DispatchHours { get => dispatchHours; set => SetProperty(ref dispatchHours, value); }
+
         #endregion
 
         public AddFlightWindowViewModel(IRepository repository)
         {
             this.repository = repository;
+            Flight = new Flight
+            {
+                Id = 0,
+                Number = 0,
+                DepartureTime = DateTime.Now
+            };
         }
 
-        #region Public propert
-        public string Title => "Добавить рейс";
-        public Flight Flight { get => flight!; set => SetProperty(ref flight, value); }
-
-        #endregion
+      
 
         #region Commands
         public ICommand AddFlight => new DelegateCommand<Window>((win)=>
@@ -31,9 +43,15 @@ namespace AirportPassengers.ViewModels
             var fl = new Flight
             {
                 Number = flight.Number,
-                DepartureTime = flight.DepartureTime
+                DepartureTime = flight.DepartureTime.Date + new TimeSpan(DispatchHours, 0, 0)
             };
-            repository.Flights.Add(fl);
+
+            foreach (var item in repository.Flights)
+            {
+                if(item.Number != fl.Number)
+                        repository.Flights.Add(fl);
+
+            }
             win.Close();
         });
 
