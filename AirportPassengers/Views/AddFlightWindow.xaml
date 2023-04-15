@@ -1,0 +1,88 @@
+﻿<Window x:Class="AirportPassengers.Views.AddFlightWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:AirportPassengers.ViewModels"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Height="450" 
+        Width="350"
+        FontSize="14"
+        DataContext="{Binding Source={StaticResource Locator}, Path=AddFlightWindowViewModel}"
+        Title="{Binding Title}"
+        ResizeMode="NoResize">
+    
+      
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Vertical"
+                    Margin="3">
+            <TextBlock Text="Номер рейса:"
+                       HorizontalAlignment="Center"
+                       Margin="1"/>
+            <TextBox TextAlignment="Center"
+                     Width="150"
+                     Margin="3"
+                     Text="{Binding Flight.Number}"/>
+            <TextBlock Text="Дата отправки:"
+                       HorizontalAlignment="Center"
+                       Margin="3"/>
+            <DatePicker Width="150"
+                        Margin="1"
+                        DisplayDateStart="{x:Static sys:DateTime.Now}"/>
+            <TextBlock Text="Время отправки:"
+                       HorizontalAlignment="Center"
+                       Margin="3" />
+            <ComboBox HorizontalContentAlignment="Center"
+                      Width="80"
+                      SelectedItem="{Binding Flight.DepartureTime}"
+                      SelectedIndex="10">
+                <ComboBoxItem Content="0.00"/>
+                <ComboBoxItem Content="1.00"/>
+                <ComboBoxItem Content="2.00"/>
+                <ComboBoxItem Content="3.00"/>
+                <ComboBoxItem Content="4.00"/>
+                <ComboBoxItem Content="5.00"/>
+                <ComboBoxItem Content="6.00"/>
+                <ComboBoxItem Content="7.00"/>
+                <ComboBoxItem Content="8.00"/>
+                <ComboBoxItem Content="9.00"/>
+                <ComboBoxItem Content="10.00"/>
+                <ComboBoxItem Content="11.00"/>
+                <ComboBoxItem Content="12.00"/>
+                <ComboBoxItem Content="13.00"/>
+                <ComboBoxItem Content="14.00"/>
+                <ComboBoxItem Content="15.00"/>
+                <ComboBoxItem Content="16.00"/>
+                <ComboBoxItem Content="17.00"/>
+                <ComboBoxItem Content="18.00"/>
+                <ComboBoxItem Content="19.00"/>
+                <ComboBoxItem Content="20.00"/>
+                <ComboBoxItem Content="21.00"/>
+                <ComboBoxItem Content="22.00"/>
+                <ComboBoxItem Content="23.00"/> 
+            </ComboBox>
+            
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center" 
+                    Margin="0,0,0,10">
+            <Button Content="Сохранить"
+                    Command="{Binding AddFlight}"
+                    Margin="3" 
+                    Width="85"/>
+            <Button Content="Отмена" 
+                    Margin="3"
+                    Width="85"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

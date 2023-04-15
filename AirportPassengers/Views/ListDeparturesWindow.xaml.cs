@@ -1,5 +1,4 @@
-﻿using AirportPassengers.Interfaces;
-using System.Windows;
+﻿using System.Windows;
 
 namespace AirportPassengers.Views
 {
@@ -11,7 +10,7 @@ namespace AirportPassengers.Views
 
         public ListDeparturesWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
     }
 }

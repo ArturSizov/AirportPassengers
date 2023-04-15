@@ -8,12 +8,9 @@
         Height="650" 
         Width="1024"
         FontSize="14"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ListDeparturesWindowViewModel}"
         Title="{Binding Title}">
     
-    <Window.DataContext>
-        <vm:ListDeparturesWindowViewModel/>
-    </Window.DataContext>
-
     <Grid>
         <Grid>
 
@@ -23,7 +20,7 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="262"/>
+                <ColumnDefinition Width="248"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -50,7 +47,7 @@
                                 CornerRadius="4" Padding="1">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="{Binding Number, StringFormat=Номер рейса: {0}}"/>
-                                        <TextBlock Text="{Binding DepartureTime, StringFormat=Время отправки: {0: H:mmч|dd.MM.yyyy }}"/>
+                                        <TextBlock Text="{Binding DepartureTime, StringFormat=Время вылета: {0: H:mmч|dd.MM.yyyy }}"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -85,6 +82,7 @@
             </GroupBox>
         </Grid>
         <Button Content="Добавить список"
+                Command="{Binding LoadingFromFile}"
                 Width="120"
                 Height="45"
                 Margin="5"
@@ -98,6 +96,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"/>
         <Button Content="Добавить рейс"
+                Command="{Binding OpenAddFlightWindow}"
                 Width="130"
                 Height="45"
                 Margin="5"
