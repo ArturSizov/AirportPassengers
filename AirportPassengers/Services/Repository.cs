@@ -31,18 +31,18 @@ namespace AirportPassengers.Services
 
             try
             {
-                if (openFileDialog.ShowDialog() == true)
-                {
+                if ((bool)!openFileDialog.ShowDialog()!)
+                    return;
+
                     var file = File.ReadAllText(openFileDialog.FileName);
                     var flights = JsonSerializer.Deserialize<ObservableCollection<Flight>>(file)!;
 
                     foreach (var item in flights)
                     {
-                        if(Flights.Where(x => x.Id == item.Id).Any() == false)
+                        if(!Flights.Where(x => x.Id == item.Id).Any())
                             Flights.Add(item);
                     }
-                }
-                else return;
+                
             }
             catch (Exception)
             {
@@ -61,13 +61,13 @@ namespace AirportPassengers.Services
 
             try
             {
-                if (saveFileDialog.ShowDialog() == true)
-                {
+                if ((bool)!saveFileDialog.ShowDialog()!)
+                    return;
+                
                     var filePath = saveFileDialog.FileName;
                     await using FileStream createStream = File.Create(filePath);
                     await JsonSerializer.SerializeAsync(createStream, Flights);
-                }
-                else return;
+                
             }
             catch (Exception)
             {

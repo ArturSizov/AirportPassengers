@@ -46,12 +46,16 @@ namespace AirportPassengers.ViewModels
                 DepartureTime = flight.DepartureTime.Date + new TimeSpan(DispatchHours, 0, 0)
             };
 
-            foreach (var item in repository.Flights)
+            if(repository.Flights.Count != 0)
             {
-                if(item.Number != fl.Number)
+                foreach (var item in repository.Flights)
+                {
+                    if (item.Number != fl.Number)
                         repository.Flights.Add(fl);
-
+                }
             }
+            else repository.Flights.Add(fl);
+
             win.Close();
         });
 
