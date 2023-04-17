@@ -1,6 +1,4 @@
-﻿using AirportPassengers.Interfaces;
-using AirportPassengers.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +15,11 @@ using System.Windows.Shapes;
 namespace AirportPassengers.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AddFlightWindow.xaml
+    /// Логика взаимодействия для AddPassengerWindow.xaml
     /// </summary>
-    public partial class AddFlightWindow : Window
+    public partial class AddPassengerWindow : Window
     {
-        public AddFlightWindow()
+        public AddPassengerWindow()
         {
             InitializeComponent();
         }

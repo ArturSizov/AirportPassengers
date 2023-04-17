@@ -8,6 +8,7 @@
         Height="650" 
         Width="1024"
         FontSize="14"
+        WindowStartupLocation="CenterScreen"
         DataContext="{Binding Source={StaticResource Locator}, Path=ListDeparturesWindowViewModel, UpdateSourceTrigger=PropertyChanged}"
         Title="{Binding Title}">
     
@@ -101,7 +102,14 @@
                 Margin="5"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"/>
-        
+        <Button Content="Добавить пассажира"
+                Command="{Binding OpenAddPassengerWindow}"
+                Width="150"
+                Height="45"
+                Margin="0,0,350,5"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"/>
+
     </Grid>
     
 </Window>

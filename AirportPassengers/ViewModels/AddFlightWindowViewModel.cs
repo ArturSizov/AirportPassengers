@@ -1,11 +1,13 @@
 ﻿using AirportPassengers.Interfaces;
 using AirportPassengers.Models;
+using AirportPassengers.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Xps.Packaging;
 
 namespace AirportPassengers.ViewModels
 {
@@ -35,9 +37,10 @@ namespace AirportPassengers.ViewModels
             };
         }
 
-      
-
         #region Commands
+        /// <summary>
+        /// Add Flight passandeer command
+        /// </summary>
         public ICommand AddFlight => new DelegateCommand<Window>((win)=>
         {
             var fl = new Flight
@@ -46,19 +49,18 @@ namespace AirportPassengers.ViewModels
                 DepartureTime = flight.DepartureTime.Date + new TimeSpan(DispatchHours, 0, 0)
             };
 
-            if(repository.Flights.Count != 0)
+            if (repository.Flights.Where(x => x.Number == fl.Number).Any())
             {
-                foreach (var item in repository.Flights)
-                {
-                    if (item.Number != fl.Number)
-                        repository.Flights.Add(fl);
-                }
+                MessageBox.Show("Рейс с таким номером уже существует", "Airport Passengers", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            else repository.Flights.Add(fl);
-
+            repository.Flights.Add(fl);
             win.Close();
         });
 
+        /// <summary>
+        /// Close window command
+        /// </summary>
         public ICommand Close => new DelegateCommand<Window>((win) =>
         {
             win.Close();

@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 
 namespace AirportPassengers.Models
 {
-    public class Flight
+    public class Flight : BindableBase
     {
-        public int Id { get; set; }
-        public int Number { get; set;}
-        public DateTime DepartureTime { get; set; }
-        public ObservableCollection<Passenger>? Passengers { get; set; }
+        private int id;
+        private int number;
+        private DateTime departureTime;
+        private ObservableCollection<Passenger>? passengers;
+
+        public int Id { get => id; set => SetProperty(ref id, value); }
+        public int Number { get => number; set => SetProperty(ref number, value); }
+        public DateTime DepartureTime { get => departureTime; set => SetProperty(ref departureTime, value); }
+        public ObservableCollection<Passenger>? Passengers{ get => passengers!; set => SetProperty(ref passengers, value); }
     }
 }

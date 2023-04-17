@@ -1,14 +1,10 @@
 ﻿using AirportPassengers.Interfaces;
 using AirportPassengers.Models;
-using AirportPassengers.Services;
 using AirportPassengers.Views;
-using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
-using System;
+using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 
@@ -41,7 +37,6 @@ namespace AirportPassengers.ViewModels
         public ICommand LoadingFromFile => new DelegateCommand(() =>
         {
             repository.LoadingFromFile();
-            Flights = repository.Flights;
         });
 
         // <summary>
@@ -52,16 +47,30 @@ namespace AirportPassengers.ViewModels
             await repository.SaveFile();
         });
 
+        /// <summary>
+        /// Open add flight window
+        /// </summary>
         public ICommand OpenAddFlightWindow => new DelegateCommand(() =>
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var win = new AddFlightWindow(repository);
+                var win = new AddFlightWindow();
 
                 win.ShowDialog();
             });
-            Flights = repository.Flights;
+        });
 
+        /// <summary>
+        /// Open add flight window
+        /// </summary>
+        public ICommand OpenAddPassengerWindow => new DelegateCommand(() =>
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var win = new AddPassengerWindow();
+
+                win.ShowDialog();
+            });
         });
         #endregion
     }

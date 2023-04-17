@@ -1,11 +1,19 @@
-﻿namespace AirportPassengers.Models
+﻿using Prism.Mvvm;
+
+namespace AirportPassengers.Models
 {
-    public class Passenger
+    public class Passenger : BindableBase
     {
-        public int IdFlight { get; set; }       
-        public int IdPassenger { get; set; }
-        public string? Name { get; set; }    
-        public string? LastName { get; set; }
-        public string? MiddleName { get; set; }
+        private string? middleName;
+        private string? lastName;
+        private string? name;
+        private int idPassenger;
+        private int idFlight;
+
+        public int IdFlight { get => idFlight; set => SetProperty(ref idFlight, value); }
+        public int IdPassenger { get => idPassenger; set => SetProperty(ref idPassenger, value);}
+        public string? Name { get => name; set => SetProperty(ref name, value); }
+        public string? LastName { get => lastName; set => SetProperty(ref lastName, value); }
+        public string? MiddleName { get => middleName; set => SetProperty(ref middleName, value); }
     }
 }
