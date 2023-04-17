@@ -1,11 +1,10 @@
-﻿<Application x:Class="AirportPassengers.App"
+﻿<prism:PrismApplication x:Class="AirportPassengers.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:AirportPassengers.ViewModels.Locator"
-              StartupUri="Views/ListDeparturesWindow.xaml">
+             xmlns:prism="http://prismlibrary.com/">
 
     <Application.Resources>
-        <local:ViewModelLocator x:Key="Locator"/>
+       
     </Application.Resources>
 
-</Application>
+</prism:PrismApplication>

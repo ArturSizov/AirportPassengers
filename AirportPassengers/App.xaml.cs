@@ -1,32 +1,27 @@
-﻿using AirportPassengers.Infrastructure;
+﻿using Prism.Ioc;
+using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using AirportPassengers.Views;
 using AirportPassengers.Interfaces;
 using AirportPassengers.Services;
 using AirportPassengers.ViewModels;
-using AirportPassengers.ViewModels.Locator;
-using AirportPassengers.Views;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Prism.Services.Dialogs;
-using System;
-using System.Windows;
-using Unity;
 
 namespace AirportPassengers
 {
-    public partial class App : Application
+    public partial class App
     {
-        public App()
-        {
-            ConfigureIOC();
-        }
+        protected override Window CreateShell() => Container.Resolve<ListDeparturesWindow>();
 
-        private void ConfigureIOC()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            RootContainer.Container.RegisterSingleton<ListDeparturesWindow>();
-            RootContainer.Container.RegisterSingleton<AddFlightWindow>();
-            RootContainer.Container.RegisterSingleton<AddPassengerWindowViewModel>();
-            RootContainer.Container.RegisterSingleton<IRepository, Repository>();
-
+            containerRegistry.RegisterServices(services =>
+            {
+                services.AddLogging(logging => logging.AddConsole());
+            });
+            containerRegistry.RegisterDialog<AddPassengerDialog>();
+            containerRegistry.RegisterDialog<AddFlightDialog>();
+            containerRegistry.RegisterScoped<IRepository, Repository>();
         }
     }
 }

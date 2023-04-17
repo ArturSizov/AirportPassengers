@@ -9,7 +9,7 @@ namespace AirportPassengers.Models
         private int id;
         private int number;
         private DateTime departureTime;
-        private ObservableCollection<Passenger>? passengers;
+        private ObservableCollection<Passenger>? passengers = new();
 
         public int Id { get => id; set => SetProperty(ref id, value); }
         public int Number { get => number; set => SetProperty(ref number, value); }

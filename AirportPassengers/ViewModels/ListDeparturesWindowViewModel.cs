@@ -4,6 +4,7 @@ using AirportPassengers.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -16,6 +17,7 @@ namespace AirportPassengers.ViewModels
         private ObservableCollection<Flight>? flights;
         private Flight? selectedFlight;
         private readonly IRepository repository;
+        private readonly IDialogService dialogService;
         #endregion
 
         #region Piblic property
@@ -24,9 +26,10 @@ namespace AirportPassengers.ViewModels
         public  Flight SelectedFlight { get => selectedFlight!; set => SetProperty(ref selectedFlight, value); }
         #endregion
 
-        public ListDeparturesWindowViewModel(IRepository repository)
+        public ListDeparturesWindowViewModel(IRepository repository, IDialogService dialogService)
         {
             this.repository = repository;
+            this.dialogService = dialogService;
             Flights = repository.Flights;
         }
 
@@ -34,7 +37,7 @@ namespace AirportPassengers.ViewModels
         /// <summary>
         /// Download command from json file
         /// </summary>
-        public ICommand LoadingFromFile => new DelegateCommand(() =>
+        public ICommand LoadingFromFileCommand => new DelegateCommand(() =>
         {
             repository.LoadingFromFile();
         });
@@ -42,7 +45,7 @@ namespace AirportPassengers.ViewModels
         // <summary>
         /// Save file command
         /// </summary>
-        public ICommand SaveFile => new DelegateCommand(async() =>
+        public ICommand SaveFileCommand => new DelegateCommand(async() =>
         {
             await repository.SaveFile();
         });
@@ -50,27 +53,17 @@ namespace AirportPassengers.ViewModels
         /// <summary>
         /// Open add flight window
         /// </summary>
-        public ICommand OpenAddFlightWindow => new DelegateCommand(() =>
+        public ICommand OpenCreateFlighDialogCommand => new DelegateCommand(() =>
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var win = new AddFlightWindow();
-
-                win.ShowDialog();
-            });
+            dialogService.ShowDialog(nameof(AddFlightDialog));
         });
 
         /// <summary>
         /// Open add flight window
         /// </summary>
-        public ICommand OpenAddPassengerWindow => new DelegateCommand(() =>
+        public ICommand OpenCreatePassengerDialogCommand => new DelegateCommand(() =>
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var win = new AddPassengerWindow();
-
-                win.ShowDialog();
-            });
+            dialogService.ShowDialog(nameof(AddPassengerDialog));
         });
         #endregion
     }
