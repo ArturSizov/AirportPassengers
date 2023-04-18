@@ -15,15 +15,25 @@ namespace AirportPassengers.ViewModels
     {
         #region Private property
         private ObservableCollection<Flight>? flights;
-        private Flight? selectedFlight;
+        private Flight? flight;
+        private Passenger? selectPassenger;
         private readonly IRepository repository;
         private readonly IDialogService dialogService;
         #endregion
 
         #region Piblic property
         public string Title => "Airport Passengers";
-        public ObservableCollection<Flight> Flights { get => flights!; set => SetProperty(ref flights, value); }
-        public  Flight SelectedFlight { get => selectedFlight!; set => SetProperty(ref selectedFlight, value); }
+        public ObservableCollection<Flight> Flights
+        {
+            get => flights!; set
+            {
+                SetProperty(ref flights, value);
+                RaisePropertyChanged(nameof(Flights));
+            }
+        }
+        public  Flight Flight { get => flight!; set => SetProperty(ref flight, value); }
+        public Passenger SelectPassenger { get => selectPassenger!; set => SetProperty(ref selectPassenger, value); }
+
         #endregion
 
         public ListDeparturesWindowViewModel(IRepository repository, IDialogService dialogService)
@@ -55,7 +65,7 @@ namespace AirportPassengers.ViewModels
         /// </summary>
         public ICommand OpenCreateFlighDialogCommand => new DelegateCommand(() =>
         {
-            dialogService.ShowDialog(nameof(AddFlightDialog));
+            dialogService.ShowDialog(nameof(AddFlightDialog)); 
         });
 
         /// <summary>
@@ -63,7 +73,25 @@ namespace AirportPassengers.ViewModels
         /// </summary>
         public ICommand OpenCreatePassengerDialogCommand => new DelegateCommand(() =>
         {
-            dialogService.ShowDialog(nameof(AddPassengerDialog));
+            dialogService.ShowDialog(nameof(AddPassengerDialog)); 
+        });
+
+        /// <summary>
+        /// Passenger Removal Command
+        /// </summary>
+        public ICommand RemovePassengerDialogCommand => new DelegateCommand<Passenger>((pas) =>
+        {
+            Flight?.Passengers?.Remove(pas);
+        });
+
+        public ICommand EditPassengerDialogCommand => new DelegateCommand<Passenger>((passenger) =>
+        {
+            var parameters = new DialogParameters
+            {
+                { "passenger", passenger }
+            };
+
+            dialogService.ShowDialog(nameof(AddPassengerDialog), parameters, null);
         });
         #endregion
     }

@@ -16,10 +16,11 @@ namespace AirportPassengers.ViewModels
         private readonly IRepository repository;
         private Passenger? passenger = new();
         private List<int>? numberFlight = new();
+        private bool comboBoxIsEnabled;
         private int selectIndex;
-
-
+        
         #endregion
+
         #region Public propery
         /// <inheritdoc/>
         public event Action<IDialogResult>? RequestClose;
@@ -27,6 +28,8 @@ namespace AirportPassengers.ViewModels
         public Passenger Passenger { get => passenger!; set => SetProperty(ref passenger, value); }
         public List<int> NumberFlight { get => numberFlight!; set => SetProperty(ref numberFlight, value); }
         public int SelectIndex { get => selectIndex; set => SetProperty(ref selectIndex, value); }
+        public bool ComboBoxIsEnabled { get => comboBoxIsEnabled; set => SetProperty(ref comboBoxIsEnabled, value); }
+
         #endregion
 
         public AddPassengerDialogViewModel(IRepository repository)
@@ -34,13 +37,15 @@ namespace AirportPassengers.ViewModels
             this.repository = repository;
             foreach (var item in repository.Flights)
                 NumberFlight.Add(item.Number);
+            if (repository.Flights.Count != 0)
+                ComboBoxIsEnabled = true;
         }
 
         #region Commands
         /// <summary>
         /// Add passandeer command
         /// </summary>
-        public ICommand CreatePassenderCommand => new DelegateCommand<Window>((win) =>
+        public ICommand CreatePassenderCommand => new DelegateCommand(() =>
         {
             var pass = new Passenger
             {
@@ -48,17 +53,16 @@ namespace AirportPassengers.ViewModels
                 LastName = Passenger.LastName,
                 Name = Passenger.Name,
                 MiddleName = Passenger.MiddleName,
-                IdFlight = selectIndex
+                IdFlight = 1
             };
 
             foreach (var item in repository.Flights)
             {
-                if(item.Number == selectIndex)
+                if (item.Number == selectIndex)
                 {
-                    item.Passengers.Add(pass);
+                    item?.Passengers?.Add(pass);
                 }
             }
-
             RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
         });
 
@@ -75,8 +79,22 @@ namespace AirportPassengers.ViewModels
         public void OnDialogClosed() => RequestClose?.Invoke(new DialogResult(ButtonResult.Ignore));
 
         /// <inheritdoc/>
-        public void OnDialogOpened(IDialogParameters parameters) { }
-       
+        public void OnDialogOpened(IDialogParameters parameters) 
+        {
+            if(parameters.ContainsKey("passenger"))
+            {
+                var pas = parameters.GetValue<Passenger>("passenger");
+                Passenger = new Passenger
+                {
+                    IdPassenger = new Random().Next(1, 1000),
+                    IdFlight = SelectIndex,
+                    LastName = pas.LastName,
+                    MiddleName = pas.MiddleName,
+                    Name = pas.Name
+                };
+            }
+
+        }
         #endregion
 
     }

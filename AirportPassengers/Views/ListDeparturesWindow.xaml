@@ -3,14 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:prism="http://prismlibrary.com/"
+        xmlns:prism="http://prismlibrary.com/" 
+        xmlns:viewmodels="clr-namespace:AirportPassengers.ViewModels" 
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:converter="clr-namespace:AirportPassengers.Services.Converters"
+        d:DataContext="{d:DesignInstance Type=viewmodels:ListDeparturesWindowViewModel}"
         mc:Ignorable="d"
         Height="650" 
         Width="1024"
         FontSize="14"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}">
+    
+    <Window.Resources>
+        <converter:OpenCreatePassengerButtonIsEnabled x:Key="OpenCreatePassengerButtonIsEnabled"/>
+    </Window.Resources>
     
     <Grid>
         <Grid>
@@ -37,8 +44,14 @@
                 <StackPanel
                         MinHeight="655">
                     <ListBox ItemsSource="{Binding Flights, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         SelectedItem="{Binding SelectedFlight}"
+                         SelectedItem="{Binding Flight}"
                          SelectedIndex="0">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Редактировать"/>
+                                <MenuItem Header="Удалить"/>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="Transparent" 
@@ -64,24 +77,36 @@
                   HorizontalAlignment="Left">
                 <StackPanel>
                     <DataGrid CanUserAddRows="False"
-                      CanUserDeleteRows="False"
-                      Margin="2"
-                      ItemsSource="{Binding SelectedFlight.Passengers}"
-                      AutoGenerateColumns="False" 
-                      ColumnHeaderHeight="30" 
-                      RowBackground="Transparent"
-                      AlternatingRowBackground="AliceBlue"
-                      Background="White" RowHeight="25" GridLinesVisibility="Horizontal">
+                              CanUserDeleteRows="False"
+                              Margin="2"
+                              ItemsSource="{Binding Flight.Passengers}"
+                              SelectedItem="{Binding SelectPassenger}"
+                              AutoGenerateColumns="False" 
+                              ColumnHeaderHeight="30" 
+                              RowBackground="Transparent"
+                              AlternatingRowBackground="AliceBlue"
+                              Background="White" RowHeight="25" GridLinesVisibility="Horizontal">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="250"/>
                             <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="250"/>
                             <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="*"/>
                         </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Редактировать" 
+                                          Command="{Binding EditPassengerDialogCommand}"
+                                          CommandParameter="{Binding SelectPassenger}"/>
+                                <MenuItem Header="Удалить" 
+                                          Command="{Binding RemovePassengerDialogCommand}"
+                                          CommandParameter="{Binding SelectPassenger}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </StackPanel>
             </GroupBox>
         </Grid>
         <Button Content="Добавить список"
+                Style="{StaticResource ButtonCustom}"
                 Command="{Binding LoadingFromFileCommand}"
                 Width="120"
                 Height="45"
@@ -89,6 +114,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"/>
         <Button Content="Сохранить"
+                Style="{StaticResource ButtonCustom}"
                 Command="{Binding SaveFileCommand}"
                 Width="85"
                 Height="45"
@@ -96,6 +122,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"/>
         <Button Content="Добавить рейс"
+                Style="{StaticResource ButtonCustom}"
                 Command="{Binding OpenCreateFlighDialogCommand}"
                 Width="130"
                 Height="45"
@@ -103,7 +130,9 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"/>
         <Button Content="Добавить пассажира"
+                Style="{StaticResource ButtonCustom}"
                 Command="{Binding OpenCreatePassengerDialogCommand}"
+                IsEnabled="{Binding Flights.Count, Converter={StaticResource OpenCreatePassengerButtonIsEnabled}}"
                 Width="150"
                 Height="45"
                 Margin="0,0,350,5"

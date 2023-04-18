@@ -1,5 +1,4 @@
 ﻿using Prism.Mvvm;
-using System;
 
 namespace AirportPassengers.Models
 {

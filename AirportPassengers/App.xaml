@@ -4,7 +4,11 @@
              xmlns:prism="http://prismlibrary.com/">
 
     <Application.Resources>
-       
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CustomControls/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 
 </prism:PrismApplication>
