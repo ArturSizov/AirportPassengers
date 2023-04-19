@@ -15,15 +15,11 @@ namespace AirportPassengers.ViewModels
         #region Private property
         private Flight? flight;
         private IRepository repository;
-        private int dispatchHours;
         #endregion
 
         #region Public propert
-        /// <inheritdoc/>
-        public event Action<IDialogResult>? RequestClose;
-        public string Title => "Добавить рейс";
+        public string Title => "Ввод данных";
         public Flight Flight { get => flight!; set => SetProperty(ref flight, value); }
-        public int DispatchHours { get => dispatchHours; set => SetProperty(ref dispatchHours, value); }
 
         #endregion
 
@@ -32,7 +28,7 @@ namespace AirportPassengers.ViewModels
             this.repository = repository;
             Flight = new Flight
             {
-                Number = 1,
+                FlightNumber = 1,
                 DepartureTime = DateTime.Now
             };
         }
@@ -41,38 +37,45 @@ namespace AirportPassengers.ViewModels
         /// <summary>
         /// Add Flight passandeer command
         /// </summary>
-        public ICommand CreateFlightCommand => new DelegateCommand<Window>((win)=>
+        public ICommand CreateFlightCommand => new DelegateCommand(()=>
         {
-            var fl = new Flight
-            {
-                Id = new Random().Next(1, 1000),
-                Number = Flight.Number,
-                DepartureTime = Flight.DepartureTime.Date + new TimeSpan(DispatchHours, 0, 0)
-            };
-
-            if (repository.Flights.Where(x => x.Number == fl.Number).Any())
-            {
-                MessageBox.Show("Рейс с таким номером уже существует", "Airport Passengers", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            repository.Flights.Add(fl);
-            RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+            if(repository.CreateFlight(Flight))
+                RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
         });
 
         /// <summary>
         /// Close window command
         /// </summary>
-        public ICommand CloseWindowCommand => new DelegateCommand(() =>
+        public ICommand CloseDialogCommand => new DelegateCommand(() =>
         {
-            RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+            RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel));
         });
+        #endregion
 
+        #region Inheritdoc
+        /// <inheritdoc/>
+        public event Action<IDialogResult>? RequestClose;
         /// <inheritdoc/>
         public bool CanCloseDialog() => true;
         /// <inheritdoc/>
         public void OnDialogClosed() => RequestClose?.Invoke(new DialogResult(ButtonResult.Ignore));
         /// <inheritdoc/>
-        public void OnDialogOpened(IDialogParameters parameters) { }
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
+            if (parameters.ContainsKey("flight"))
+            {
+                var fl = parameters.GetValue<Flight>("flight");
+
+                Flight = new Flight
+                {
+                    Id = fl.Id,
+                    DepartureTime = fl.DepartureTime,
+                    FlightNumber = fl.FlightNumber,
+                    DispatchHours = fl.DispatchHours,
+                    Passengers = fl.Passengers
+                };
+            }
+        }
         #endregion
     }
 }

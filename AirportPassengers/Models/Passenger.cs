@@ -8,9 +8,9 @@ namespace AirportPassengers.Models
         private string? lastName;
         private string? name;
         private int idPassenger;
-        private int idFlight;
+        private int flightNumber;
 
-        public int IdFlight { get => idFlight; set => SetProperty(ref idFlight, value); }
+        public int FlightNumber { get => flightNumber; set => SetProperty(ref flightNumber, value); }
         public int IdPassenger { get => idPassenger; set => SetProperty(ref idPassenger, value);}
         public string? Name { get => name; set => SetProperty(ref name, value); }
         public string? LastName { get => lastName; set => SetProperty(ref lastName, value); }

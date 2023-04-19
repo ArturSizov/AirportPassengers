@@ -9,5 +9,7 @@ namespace AirportPassengers.Interfaces
         ObservableCollection<Flight> Flights { get; set; }
         void LoadingFromFile();
         Task SaveFile();
+        void CreatePassender(Passenger passenger);
+        bool CreateFlight(Flight flight);
     }
 }

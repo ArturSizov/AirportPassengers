@@ -47,12 +47,12 @@
             <TextBox TextAlignment="Center"
                      Width="150"
                      Margin="3"
-                     Text="{Binding Passenger.MiddleName, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding Passenger.MiddleName}"/>
             <TextBlock Text="Номер рейса:"
                        HorizontalAlignment="Center"
                        Margin="1"/>
             <ComboBox ItemsSource="{Binding NumberFlight}"
-                      SelectedItem="{Binding SelectIndex}"
+                      SelectedItem="{Binding Passenger.FlightNumber}"
                       Width="80"/>
         </StackPanel>
 
@@ -68,14 +68,14 @@
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource CreatePassenderIsEnabledButtonConverter}">
                         <Binding Path="Passenger.Name"/>
-                        <Binding Path="Passenger.LastName"/> 
-                        <Binding Path="SelectIndex"/>
+                        <Binding Path="Passenger.LastName"/>
+                        <Binding Path="Passenger.FlightNumber"/>
                     </MultiBinding>
                 </Button.IsEnabled>
             </Button>
             <Button Content="Отмена" 
                     Style="{StaticResource ButtonCustom}"
-                    Command="{Binding CloseWindowCommand}"
+                    Command="{Binding CloseDialogCommand}"
                     Margin="3"
                     Width="85"/>
 

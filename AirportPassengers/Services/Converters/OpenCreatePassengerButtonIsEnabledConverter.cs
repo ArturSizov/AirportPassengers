@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace AirportPassengers.Services.Converters
 {
-    public class OpenCreatePassengerButtonIsEnabled : IValueConverter
+    public class OpenCreatePassengerButtonIsEnabledConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

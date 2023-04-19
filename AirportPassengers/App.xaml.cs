@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using AirportPassengers.Views;
 using AirportPassengers.Interfaces;
 using AirportPassengers.Services;
-using AirportPassengers.ViewModels;
 
 namespace AirportPassengers
 {

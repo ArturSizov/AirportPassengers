@@ -28,8 +28,7 @@
             <TextBox TextAlignment="Center"
                      Width="150"
                      Margin="3"
-                     
-                     Text="{Binding Flight.Number}"/>
+                     Text="{Binding Flight.FlightNumber}"/>
             <TextBlock Text="Дата отправки:"
                        HorizontalAlignment="Center"
                        Margin="3"/>
@@ -39,10 +38,10 @@
                         DisplayDateStart="{x:Static sys:DateTime.Now}"/>
             <TextBlock Text="Время отправки:"
                        HorizontalAlignment="Center"
-                       Margin="3" />
+                       Margin="3"/>
             <ComboBox HorizontalContentAlignment="Center"
                       Width="80"
-                      SelectedIndex="{Binding DispatchHours}">
+                      SelectedIndex="{Binding Flight.DispatchHours}">
                 <ComboBoxItem Content="0.00"/>
                 <ComboBoxItem Content="1.00"/>
                 <ComboBoxItem Content="2.00"/>
@@ -77,12 +76,10 @@
                     Margin="0,0,0,10">
             <Button Content="Сохранить"
                     Command="{Binding CreateFlightCommand}"
-                    CommandParameter="{Binding ElementName=Window}"
                     Margin="3" 
                     Width="85"/>
             <Button Content="Отмена" 
-                    Command="{Binding CloseWindowCommand}"
-                    CommandParameter="{Binding ElementName=Window}"
+                    Command="{Binding CloseDialogCommand}"
                     Margin="3"
                     Width="85"/>
 

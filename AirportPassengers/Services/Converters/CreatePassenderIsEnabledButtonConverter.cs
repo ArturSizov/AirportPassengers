@@ -1,5 +1,4 @@
-﻿using AirportPassengers.Models;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -15,7 +14,7 @@ namespace AirportPassengers.Services.Converters
                 var lastName = values[1] as string;
                 var selectIndex = (int)values[2];
 
-                if (name != string.Empty && lastName != string.Empty && selectIndex != 0)
+                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && selectIndex != 0)
                     return true;
                 else return false;
             }
